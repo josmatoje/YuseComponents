@@ -14,6 +14,7 @@ GO
 CREATE TABLE Usuarios(
 	IDUsuario uniqueidentifier CONSTRAINT PK_Usuarios Primary Key,
 	NickUsuario varchar(30) NOT NULL,
+	--Contrasenha 
 	Nombre varchar(30) NULL,
 	Apellido varchar(50) NULL,
 	Saldo money NULL Default 0,
@@ -87,9 +88,15 @@ BEGIN
 --Creacion del usuario de la base de datos
 	CREATE LOGIN pedrito with password='megustan LAS bases de datos', 
 	DEFAULT_DATABASE=YuseComponents 
-
+	
 	CREATE USER pedrito FOR LOGIN pedrito 
 	GRANT EXECUTE, SELECT --Solo se realizan procedimientos para todas las acciones que suceden en el programa
 	--ON ListasCreadas.YuseComponents --Si GRANT INSERT, UPDATE, DELETE
 	TO pedrito
 END
+
+--Procedimientos y Funciones
+
+CREATE OR ALTER PROCEDURE InsertarUsuario (
+
+--Datos
