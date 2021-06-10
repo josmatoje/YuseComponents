@@ -23,7 +23,7 @@ public class Main extends Application {
 
     private TextField nickUsuario = new TextField();
     private TextField contrasena = new TextField();
-    //private TextField tfResult = new TextField();
+    private TextField tfResult = new TextField();
 
     @Override // Override the start method in the Application class
     public void start(Stage primaryStage) {

@@ -21,15 +21,17 @@ public class DataAcces {
                                                 ficheroConexion.getProperty("password"));
         } catch (IOException e) {
             e.printStackTrace(); //todo error interno al inicializar la conexion
-        } catch (SQLException e) {
-            e.printStackTrace(); //todo error al realizar la conexion
-        }finally{
-            return conexion;
+        } catch (SQLException f) {
+            f.getSQLState(); //todo error al realizar la conexion
         }
-
+        return conexion;
     }
 
-    private static void cerrarConexion (){
+    private static void cerrarConexion (Connection conexionSQL){
+        try {
+            conexionSQL.close();
+        } catch (SQLException throwables) {
 
+        }
     }
 }
