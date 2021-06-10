@@ -14,7 +14,7 @@ GO
 CREATE TABLE Usuarios(
 	IDUsuario uniqueidentifier CONSTRAINT PK_Usuarios Primary Key,
 	NickUsuario varchar(30) NOT NULL,
-	--Contrasenha 
+	Contrasenha varbinary(MAX) NOT NULL,
 	Nombre varchar(30) NULL,
 	Apellido varchar(50) NULL,
 	Saldo money NULL Default 0,
@@ -97,6 +97,23 @@ END
 
 --Procedimientos y Funciones
 
-CREATE OR ALTER PROCEDURE InsertarUsuario (
+GO
+--Nombre: InsertarUsuario
+--Descripción: Inserta un nuevo usuario en la base de datos con su contraseña ofuscada
+--Entradas: nick de usuario y contraseña, nombre y apellido opcinal
+--Salidas:
+CREATE OR ALTER PROCEDURE InsertarUsuario 
+				@NickUsuario varchar(30),
+				@Contrasenha varchar(32),
+				@Nombre varchar(30) = NULL,  -- NULL default value  
+				@Apellido varchar(50) = NULL  -- NULL default value  
+AS BEGIN
+	DECLARE @Salteo nvarchar(6) = CAST(ABS(CHECKSUM(NEWID())) % 100000 AS nvarchar(6));
 
+	INSERT INTO Usuarios (IDUsuario, NickUsuario, Contrasenha, Nombre, Apellido)
+
+
+
+END
+GO
 --Datos
