@@ -83,16 +83,15 @@ CREATE TABLE ListaComponente(
 )
 GO
 
-IF NOT EXISTS (SELECT name FROM [sys].[server_principals] WHERE name = 'pedrito')
+IF NOT EXISTS (SELECT name FROM [sys].[server_principals] WHERE name = 'personaje')
 BEGIN
 --Creacion del usuario de la base de datos
-	CREATE LOGIN pedrito with password='megustan LAS bases de datos', 
+	CREATE LOGIN personaje with password='a', 
 	DEFAULT_DATABASE=YuseComponents 
-	
-	CREATE USER pedrito FOR LOGIN pedrito 
-	GRANT EXECUTE, SELECT --Solo se realizan procedimientos para todas las acciones que suceden en el programa
-	--ON ListasCreadas.YuseComponents --Si GRANT INSERT, UPDATE, DELETE
-	TO pedrito
+	USE YuseComponents
+	CREATE USER personaje FOR LOGIN personaje
+	GRANT EXECUTE, SELECT, INSERT, UPDATE, DELETE
+	TO personaje
 END
 
 --Procedimientos y Funciones

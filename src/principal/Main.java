@@ -10,6 +10,9 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import modelo.DataAcces;
+
+import java.sql.Connection;
 
 
 public class Main extends Application {
@@ -19,6 +22,7 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         JavaFX.launch(args);
+        Connection conexion = DataAcces.abrirConexion();
     }
 
     private TextField nickUsuario = new TextField();

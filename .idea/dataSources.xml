@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="YuseComponents@localhost" uuid="45f85134-7366-4851-ae44-fefdb3a5a48f">
+    <data-source source="LOCAL" name="@localhost" uuid="1a46690f-3968-4524-8a50-8ed3a0bb413a">
       <driver-ref>sqlserver.ms</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
-      <jdbc-url>jdbc:sqlserver://localhost;database=YuseComponents</jdbc-url>
+      <jdbc-url>jdbc:sqlserver://localhost:1433</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
