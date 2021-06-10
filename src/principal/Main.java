@@ -21,9 +21,9 @@ public class Main extends Application {
         JavaFX.launch(args);
     }
 
-    private TextField tfNumber1 = new TextField();
-    private TextField tfNumber2 = new TextField();
-    private TextField tfResult = new TextField();
+    private TextField nickUsuario = new TextField();
+    private TextField contrasena = new TextField();
+    //private TextField tfResult = new TextField();
 
     @Override // Override the start method in the Application class
     public void start(Stage primaryStage) {
@@ -53,11 +53,12 @@ public class Main extends Application {
                 KeyCombination.keyCombination("Ctrl+D"));
 
         HBox hBox1 = new HBox(5);
-        tfNumber1.setPrefColumnCount(2);
-        tfNumber2.setPrefColumnCount(2);
+        nickUsuario.setPrefColumnCount(2);
+        contrasena.setPrefColumnCount(2);
         tfResult.setPrefColumnCount(2);
-        hBox1.getChildren().addAll(new Label("Number 1:"), tfNumber1,
-                new Label("Number 2:"), tfNumber2, new Label("Result:"),
+        hBox1.getChildren().addAll( new Label("Nick:"), nickUsuario,
+                                    new Label("Contraseña:"), contrasena,
+                                    new Label("Result:"),
                 tfResult);
         hBox1.setAlignment(Pos.CENTER);
 
@@ -91,8 +92,8 @@ public class Main extends Application {
     }
 
     private void perform(char operator) {
-        double number1 = Double.parseDouble(tfNumber1.getText());
-        double number2 = Double.parseDouble(tfNumber2.getText());
+        double number1 = Double.parseDouble(nickUsuario.getText());
+        double number2 = Double.parseDouble(contrasena.getText());
 
         double result = 0;
         switch (operator) {

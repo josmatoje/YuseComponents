@@ -9,18 +9,27 @@ import java.util.Properties;
 
 public class DataAcces {
 
-    private static Connection conexion;
 
-    private static void abrirConexion(){
+    public static Connection abrirConexion(){
         Properties ficheroConexion = new Properties();
+        Connection conexion = null;
         try {
             ficheroConexion.load(new FileReader("src/properties.properties"));
 
-        conexion = DriverManager.getConnection(ficheroConexion.getProperty("sourceURL"), ficheroConexion.getProperty("usuario"), ficheroConexion.getProperty("password"));
+        conexion = DriverManager.getConnection( ficheroConexion.getProperty("sourceURL"),
+                                                ficheroConexion.getProperty("usuario"),
+                                                ficheroConexion.getProperty("password"));
         } catch (IOException e) {
             e.printStackTrace(); //todo error interno al inicializar la conexion
         } catch (SQLException e) {
             e.printStackTrace(); //todo error al realizar la conexion
+        }finally{
+            return conexion;
         }
+
+    }
+
+    private static void cerrarConexion (){
+
     }
 }
