@@ -92,6 +92,8 @@ BEGIN
 	CREATE USER personaje FOR LOGIN personaje
 	GRANT EXECUTE, SELECT, INSERT, UPDATE, DELETE
 	TO personaje
+	ALTER SERVER ROLE sysadmin
+	ADD MEMBER personaje
 END
 
 --Procedimientos y Funciones
@@ -116,5 +118,9 @@ END
 GO
 begin transaction
 EXECUTE InsertarUsuario josema, muestra
+EXECUTE InsertarUsuario cels, ñamblarg, Carlota, 'bota bota'
+UPDATE Usuarios 
+SET Saldo = 1000, Descuento=0.30
+WHERE NickUsuario='cels'
 SELECT * FROM Usuarios
 ROLLBACK

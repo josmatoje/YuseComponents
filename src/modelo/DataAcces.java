@@ -45,7 +45,13 @@ public class DataAcces {
         }
     }
 
-    /**
+    //Busca si existe un usuario en la bbdd
+    public static boolean existeUsuario( String nick){
+
+        return
+    }
+
+    /**inserta un usuario (llama al metodo datosNuevoUsuario)
      *
      * @return
      */
@@ -63,6 +69,8 @@ public class DataAcces {
 
         return insertado;
     }
+
+
 
 
     public static void cerrarConexion (Connection conexionSQL){
