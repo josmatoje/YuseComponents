@@ -56,10 +56,10 @@ public class JavaFX extends Application {
             hBox1.setAlignment(Pos.CENTER);
 
             HBox hBox2 = new HBox(5);
-            Button btAdd = new Button("Add");
-            Button btSubtract = new Button("Subtract");
-            Button btMultiply = new Button("Multiply");
-            Button btDivide = new Button("Divide");
+            Button btAdd = new Button("Suma");
+            Button btSubtract = new Button("Resta");
+            Button btMultiply = new Button("Multiplicaacion");
+            Button btDivide = new Button("Division");
             hBox2.getChildren().addAll(btAdd, btSubtract, btMultiply, btDivide);
             hBox2.setAlignment(Pos.CENTER);
 

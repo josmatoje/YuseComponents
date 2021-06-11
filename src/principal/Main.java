@@ -22,7 +22,9 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         JavaFX.launch(args);
-        Connection conexion = DataAcces.abrirConexion();
+        DataAcces.abrirConexion();
+        System.out.println("esto sigue haciendo cosas y vuelve a abrir el mismo cuadrdito");
+        JavaFX.launch(args);
     }
 
     private TextField nickUsuario = new TextField();
@@ -41,8 +43,7 @@ public class Main extends Application {
         MenuItem menuItemSubtract = new MenuItem("Subtract");
         MenuItem menuItemMultiply = new MenuItem("Multiply");
         MenuItem menuItemDivide = new MenuItem("Divide");
-        menuOperation.getItems().addAll(menuItemAdd, menuItemSubtract,
-                menuItemMultiply, menuItemDivide);
+        menuOperation.getItems().addAll(menuItemAdd, menuItemSubtract, menuItemMultiply, menuItemDivide);
 
         MenuItem menuItemClose = new MenuItem("Close");
         menuExit.getItems().add(menuItemClose);
@@ -74,10 +75,15 @@ public class Main extends Application {
         hBox2.getChildren().addAll(btAdd, btSubtract, btMultiply, btDivide);
         hBox2.setAlignment(Pos.CENTER);
 
+        HBox hBoxSalir = new HBox(5);
+        Button btSalir = new Button("SALIR");
+        hBoxSalir.getChildren().addAll(btSalir);
+        hBoxSalir.setAlignment(Pos.BASELINE_RIGHT);
+
         VBox vBox = new VBox(10);
-        vBox.getChildren().addAll(menuBar, hBox1, hBox2);
+        vBox.getChildren().addAll(menuBar, hBox1, hBox2,hBoxSalir);
         Scene scene = new Scene(vBox, 300, 250);
-        primaryStage.setTitle("MenuDemo"); // Set the window title
+        primaryStage.setTitle("Introduzca los datos para registrarse"); // Set the window title
         primaryStage.setScene(scene); // Place the scene in the window
         primaryStage.show(); // Display the window
 
@@ -93,6 +99,7 @@ public class Main extends Application {
         btSubtract.setOnAction(e -> perform('-'));
         btMultiply.setOnAction(e -> perform('*'));
         btDivide.setOnAction(e -> perform('/'));
+        //btSalir.setOnAction(e -> );
     }
 
     private void perform(char operator) {

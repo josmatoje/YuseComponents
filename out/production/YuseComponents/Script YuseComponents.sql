@@ -13,7 +13,7 @@ GO
 
 CREATE TABLE Usuarios(
 	IDUsuario uniqueidentifier CONSTRAINT PK_Usuarios Primary Key,
-	NickUsuario varchar(30) NOT NULL,
+	NickUsuario varchar(30) NOT NULL UNIQUE,
 	Contrasenha varbinary(MAX) NOT NULL,
 	Nombre varchar(30) NULL,
 	Apellido varchar(50) NULL,
@@ -83,16 +83,15 @@ CREATE TABLE ListaComponente(
 )
 GO
 
-IF NOT EXISTS (SELECT name FROM [sys].[server_principals] WHERE name = 'pedrito')
+IF NOT EXISTS (SELECT name FROM [sys].[server_principals] WHERE name = 'personaje')
 BEGIN
 --Creacion del usuario de la base de datos
-	CREATE LOGIN pedrito with password='megustan LAS bases de datos', 
+	CREATE LOGIN personaje with password='a', 
 	DEFAULT_DATABASE=YuseComponents 
-	
-	CREATE USER pedrito FOR LOGIN pedrito 
-	GRANT EXECUTE, SELECT --Solo se realizan procedimientos para todas las acciones que suceden en el programa
-	--ON ListasCreadas.YuseComponents --Si GRANT INSERT, UPDATE, DELETE
-	TO pedrito
+	USE YuseComponents
+	CREATE USER personaje FOR LOGIN personaje
+	GRANT EXECUTE, SELECT, INSERT, UPDATE, DELETE
+	TO personaje
 END
 
 --Procedimientos y Funciones
@@ -108,12 +107,14 @@ CREATE OR ALTER PROCEDURE InsertarUsuario
 				@Nombre varchar(30) = NULL,  -- NULL default value  
 				@Apellido varchar(50) = NULL  -- NULL default value  
 AS BEGIN
-	DECLARE @Salteo nvarchar(6) = CAST(ABS(CHECKSUM(NEWID())) % 100000 AS nvarchar(6));
+	DECLARE @NewId uniqueidentifier = NEWID() --ID generado que usaremos para el "salteo" de la contraseña y para el ide del usuario
+	DECLARE @Salteo nvarchar(6) = CAST(ABS(CHECKSUM(@NewId)) % 100000 AS nvarchar(6));
 
 	INSERT INTO Usuarios (IDUsuario, NickUsuario, Contrasenha, Nombre, Apellido)
-
-
-
+		VALUES (@NewId, @NickUsuario, HASHBYTES('SHA2_512',CONVERT(NVARCHAR(4000),@Contrasenha + @Salteo)), @Nombre, @Apellido)
 END
 GO
---Datos
+begin transaction
+EXECUTE InsertarUsuario josema, muestra
+SELECT * FROM Usuarios
+ROLLBACK

@@ -8,6 +8,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import modelo.DataAcces;
+
 import java.sql.*;
 
 public class menuBD extends Application {
@@ -20,7 +22,7 @@ public class menuBD extends Application {
     @Override // Override the start method in the Application class
     public void start(Stage primaryStage) {
         // Initialize database connection and create a Statement object
-        initializeDB();
+
 
         Button btShowGrade = new Button("Show Grade");
         HBox hBox = new HBox(5);
@@ -31,41 +33,15 @@ public class menuBD extends Application {
         vBox.getChildren().addAll(hBox, lblStatus);
 
         tfSSN.setPrefColumnCount(6);
+
         tfCourseId.setPrefColumnCount(6);
         btShowGrade.setOnAction(e -> showGrade());
 
         // Create a scene and place it in the stage
         Scene scene = new Scene(vBox, 420, 80);
-        primaryStage.setTitle("FindGrade"); // Set the stage title
+        primaryStage.setTitle("Registro, inserte sus datos"); // Set the stage title
         primaryStage.setScene(scene); // Place the scene in the stage
         primaryStage.show(); // Display the stage
-    }
-
-    private void initializeDB() {
-        try {
-            // Load the JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
-//      Class.forName("oracle.jdbc.driver.OracleDriver");
-            System.out.println("Driver loaded");
-
-            // Establish a connection
-            Connection connection = DriverManager.getConnection
-                    ("jdbc:mysql://localhost/javabook", "scott", "tiger");
-//    ("jdbc:oracle:thin:@liang.armstrong.edu:1521:orcl",
-//     "scott", "tiger");
-            System.out.println("Database connected");
-
-            String queryString = "select firstName, mi, " +
-                    "lastName, title, grade from Student, Enrollment, Course " +
-                    "where Student.ssn = ? and Enrollment.courseId = ? " +
-                    "and Enrollment.courseId = Course.courseId";
-
-            // Create a statement
-            preparedStatement = connection.prepareStatement(queryString);
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
 
     private void showGrade() {
