@@ -16,6 +16,7 @@ import modelo.Usuario;
 import java.sql.Connection;
 
 import static menu.Menu.*;
+import static modelo.DataAcces.*;
 
 
 public class Main extends Application {
@@ -25,12 +26,12 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
 
-        boolean salir=false, logueado = false;
+        boolean salir=false, logueado = false, correcto=false;
         int eleccion;
         Usuario actual;
 
         mensajeBienvenida();
-
+        abrirConexion();
         //bucle del programa principal
         while(!salir){
             //Bucle de inicio de sesion
@@ -39,30 +40,33 @@ public class Main extends Application {
                 switch (eleccion) {
                     case 1:
                         actual=registroUsuario();
-                        if(actual==null){
+                        if(actual.getPassword().equals("null")){
                             deseaRegistrarse();
                             if(leerValidarRespuestaSiNo()){
-                               //todo pedir solo contraseña
+                               while (!correcto){
+                                   registrar(actual.getNick());
+                               }
                             }
+                        }else{
+                            logueado=true;
                         }
 
                         break;
                     case 2:
-
-
-                        break;
-
-                    case 3:
+                        ingresarUsuario(datosNuevoUsuario());
 
                         break;
+
+                    default:
                 }
             }
             //Bucle de interaccion en aplicacion
             while(logueado){
                 menuPrincipal();
+                logueado=false;
             }
         }
-
+        cerrarConexion();
         cerrarTeclado();
     }
 
