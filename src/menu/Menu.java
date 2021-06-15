@@ -25,7 +25,8 @@ public class Menu {
     private static final String INGRESAR_NICK= "Ingrese el nick de su usuario";
     private static final String NICK_NO_EXISTE= "El usuario no existe";
     private static final String DESEA_REGISTRARSE= "¿Desea registrar este usuario?";
-    private static final String ERROR_NICK= "Este nick ya está en uso, introduzca otro";
+    private static final String DESEA_SALIR= "¿Desea salir?";
+    private static final String NICK_USO= "Este nick ya está en uso, introduzca otro";
     private static final String INGRESAR_PASSWORD= "Ingrese una contraseña";
     private static final String ERROR_PASSWORD= "La contraseña no coincide, pruebe de nuevo";
 
@@ -35,15 +36,15 @@ public class Menu {
     private static final String ERRORES = "MENSAJE DE ERROR";
 
     /**
-     * <b>Cabecera:</b> public static boolean leerValidarRespuestaSiNo()<br>
+     * <b>Cabecera:</b> public static boolean leerValidarRespuestaSiNo()
      *   <br>
-     * <b>Comentario:</b> Metodo que lee y valida si una respuesta es S o N. En funcion de esta se devolvera un valor boleano u otro.<br>
+     * <b>Comentario:</b> Metodo que lee y valida si una respuesta es S o N. En funcion de esta se devolvera un valor boleano u otro.
      * <br>
-     * <b>Precondiciones:</b> Ninguna<br>
+     * <b>Precondiciones:</b> Ninguna
      * <br>
-     * <b>Entrada:</b> Ninguna<br>
+     * <b>Entrada:</b> Ninguna
      * <br>
-     * <b>Salida:</b> Boolean afirmativo<br>
+     * <b>Salida:</b> Boolean afirmativo
      * <br>
      * <b>Postcondiciones:</b> Este metodo se trata de una funciona ya que devuelve en este caso un boleano(afirmativo) cuyo valor sera:<br>
      * 	&nbsp;&nbsp;&nbsp;&nbsp;-true: si respuesta es 's'.<br>
@@ -75,15 +76,22 @@ public class Menu {
     }
 
     /**
-     * <b>Cabecera:</b> public static int leerValidarNumeroEntreRango(int valorInicial, int valorFinal)<br><br>
-     * <b>Comentario:</b> Este metodo se encarga de leer y validar que un numero este entre un rango.<br><br>
-     * <b>Precondiciones:</b> El numero valorInicial tiene que ser menor que valorFinal<br><br>
-     * <b>Entradas:</b> int valorInicial, int valorFinal<br><br>
-     * <b>Salidas:</b> int numero <br><br>
+     * <b>Cabecera:</b> public static int leerValidarNumeroEntreRango(int valorInicial, int valorFinal)
+     * <br>
+     * <b>Comentario:</b> Este metodo se encarga de leer y validar que un numero este entre un rango.
+     * <br>
+     * <b>Precondiciones:</b> El numero valorInicial tiene que ser menor que valorFinal
+     * <br>
+     * <b>Entradas:</b> int valorInicial, int valorFinal
+     * <br>
+     * <b>Salidas:</b> int numero
+     * <br>
      * <b>Postcondiciones:</b> Este metodo se trata de un funcion ya que devuelve un tipo de dato, entero(numero) en este caso,
-     *   				 el cual estara entre un rango(valorInicial y valorFinal) o en valorInicial-1 en caso de no realizar eleccion.<br><br>
+     *   				 el cual estara entre un rango(valorInicial y valorFinal) o en valorInicial-1 en caso de no realizar eleccion.
+     *   				 <br>
      * @param valorInicial
-     * @param valorFinal <br><br>
+     * @param valorFinal
+     * <br>
      * @return numero
      */
     public static int leerValidarNumeroEntreRango(int valorInicial, int valorFinal){
@@ -115,12 +123,18 @@ public class Menu {
 
 
     /**
-     * <b>Cabecera</b>: public static void mensajeBienvenida()</br>
-     * <b>Descripcion</b>: Muestra un mensaje de bienvenida</br>
-     * <b>Entradas</b>: --</br>
-     * <b>Salida</b>: --</br>
-     * <b>Precondiciones</b>: --</br>
-     * <b>Postcondiciones</b>: --</br>
+     * <b>Cabecera</b>: public static void mensajeBienvenida()
+     * </br>
+     * <b>Descripcion</b>: Muestra un mensaje de bienvenida
+     * </br>
+     * <b>Entradas</b>: --
+     * </br>
+     * <b>Salida</b>: --
+     * </br>
+     * <b>Precondiciones</b>: --
+     * </br>
+     * <b>Postcondiciones</b>: --
+     * </br>
      * @return
      */
     public static void mensajeBienvenida(){
@@ -128,12 +142,17 @@ public class Menu {
     }
 
     /**
-     * <b>Cabecera</b>: public static void menuPrincipal()</br>
-     * <b>Descripcion</b>: Muestra el menu principal y devuelve la eleccion</br>
-     * <b>Entradas</b>: --</br>
-     * <b>Salida</b>: entero eleccion</br>
+     * <b>Cabecera</b>: public static void menuPrincipal()
+     * </br>
+     * <b>Descripcion</b>: Muestra el menu principal y devuelve la eleccion
+     * </br>
+     * <b>Entradas</b>: --
+     * </br>
+     * <b>Salida</b>: entero eleccion
+     * </br>
      * <b>Precondiciones</b>: </br>
-     * <b>Postcondiciones</b>: devuelve 1 o 2 segun las elecciones o 0 en caso de no elegir nada.</br>
+     * <b>Postcondiciones</b>: devuelve 1 o 2 segun las elecciones o 0 en caso de no elegir nada.
+     * </br>
      * @return eleccion, entero
      */
     public static int menuInicio(){
@@ -181,12 +200,14 @@ public class Menu {
      */
     public static Usuario registroUsuario () {
         Usuario registrado = null;
-        boolean existe = false;
+        boolean salir = false;
         String nick, password;
 
         if(existeUsuario(nick=leeUsuario())){
-            while(!usuarioValido(nick, password=leePassword())){
-
+            while(!usuarioValido(nick, password=leePassword()) || !salir){
+                System.out.println(ERROR_PASSWORD);
+                System.out.println(DESEA_SALIR);
+                salir=leerValidarRespuestaSiNo();
             }
             registrado= new Usuario(nick,password);
         }else{
@@ -213,18 +234,19 @@ public class Menu {
     public static String[] datosNuevoUsuario () {
         String[] datosUsuario = new String[4];
         boolean existe = false;
-
-        System.out.println(INGRESAR_NICK);
+        
         do{
+            System.out.println(INGRESAR_NICK);
             datosUsuario[0] = teclado.nextLine();
             if(existe = existeUsuario(datosUsuario[0])){
-                System.out.println(ERROR_NICK);
+                System.out.println(NICK_USO);
             }
         }while (existe);
 
-
         return datosUsuario;
     }
+    
+    private static String 
 
     public static void menuPrincipal(){
         System.out.println(MENU_PRINCIPAL);

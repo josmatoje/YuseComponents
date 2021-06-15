@@ -47,16 +47,15 @@ public class DataAcces {
         }
     }
 
-    //Busca si existe un usuario en la bbdd
 
     /**
      * <b>Cabecera</b>: public static boolean existeUsuario(String nick)</br>
-     * <b>Descripcion</b>: </br>
-     * <b>Entradas</b>: </br>
-     * <b>Salida</b>: </br>
+     * <b>Descripcion</b>: comprueba si existe un usuario en la bbdd</br>
+     * <b>Entradas</b>: el usuario a comprobar</br>
+     * <b>Salida</b>: devuelve true si existe y false en cualquier otro caso</br>
      * <b>Precondiciones</b>: </br>
      * <b>Postcondiciones</b>: </br>
-     * @param nick
+     * @param nick, cadena
      * @return
      */
     public static boolean existeUsuario(String nick){
@@ -102,25 +101,35 @@ public class DataAcces {
         return correcto;
     }
 
-    /**inserta un usuario (recibe al metodo datosNuevoUsuario)
+    /**<b>Cabecera</b>: public static boolean ingresarUsuario(String[] datosUsuario)</br>
+     * <b>Descripcion</b>: inserta un usuario en la base de datos </br>
+     * <b>Entradas</b>: </br>
+     * <b>Salida</b>: </br>
+     * <b>Precondiciones</b>: El array es de tamaño 4 y tendrá al menos datos validos en las dos primeras casillas </br>
+     * <b>Postcondiciones</b>: </br>
      *
-     * @return
+     * @param datosUsuario, array de String
+     * @return boolean, usuario insertado
      */
-    public static boolean ingresarUsuario(){
-        boolean insertado = false;
+    public static boolean ingresarUsuario(String[] datosUsuario){
+        boolean insertado = true;
 
         try {
             CallableStatement ingresarUsuario = conexion.prepareCall(EXC_INSERTA_USUARIO);
-
-
-
+            ingresarUsuario.setString(1,datosUsuario[0]);
+            ingresarUsuario.setString(2,datosUsuario[1]);
+            ingresarUsuario.setString(3,datosUsuario[2]);
+            ingresarUsuario.setString(4,datosUsuario[3]);
+            insertado=ingresarUsuario.execute(); //Debe devolver true en caso de ejecutarse(?)
+                                                //Si no funciona, insertado=true
+                                                //      en catch, insertado = false
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            //throwables.printStackTrace();
+            insertado = false; //error al insertar
         }
 
         return insertado;
     }
-
 
 
 

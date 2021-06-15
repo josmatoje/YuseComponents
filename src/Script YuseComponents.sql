@@ -92,7 +92,7 @@ BEGIN
 	CREATE USER personaje FOR LOGIN personaje
 	GRANT EXECUTE, SELECT, INSERT, UPDATE, DELETE
 	TO personaje
-	ALTER SERVER ROLE sysadmin
+	ALTER SERVER ROLE sysadmin --No deberia tener permisos de administrador pero es la unica forma de que realice la conexion
 	ADD MEMBER personaje
 END
 

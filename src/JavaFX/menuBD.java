@@ -1,6 +1,7 @@
 package JavaFX;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -8,15 +9,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import modelo.DataAcces;
 
 import java.sql.*;
+
+import static modelo.DataAcces.*;
 
 public class menuBD extends Application {
     // PreparedStatement for executing queries
     private PreparedStatement preparedStatement;
-    private TextField tfSSN = new TextField();
-    private TextField tfCourseId = new TextField();
+    private TextField tfUsuario = new TextField();
+    private TextField tfPassword = new TextField();
     private Label lblStatus = new Label();
 
     @Override // Override the start method in the Application class
@@ -24,32 +26,36 @@ public class menuBD extends Application {
         // Initialize database connection and create a Statement object
 
 
-        Button btShowGrade = new Button("Show Grade");
+        Button btShowGrade = new Button("Iniciar sesion");
         HBox hBox = new HBox(5);
-        hBox.getChildren().addAll(new Label("SSN"), tfSSN,
-                new Label("Course ID"), tfCourseId, (btShowGrade));
-
+        HBox butonBox = new HBox(5);
+        hBox.getChildren().addAll(new Label("Usuario"), tfUsuario,
+                new Label("Contraseña"), tfPassword, (btShowGrade));
+        hBox.setAlignment(Pos.CENTER);
+        butonBox.getChildren().addAll(btShowGrade);
+        butonBox.setAlignment(Pos.CENTER);
         VBox vBox = new VBox(10);
-        vBox.getChildren().addAll(hBox, lblStatus);
+        vBox.getChildren().addAll(hBox, butonBox, lblStatus);
 
-        tfSSN.setPrefColumnCount(6);
-
-        tfCourseId.setPrefColumnCount(6);
-        btShowGrade.setOnAction(e -> showGrade());
+        tfUsuario.setPrefColumnCount(6);
+        tfPassword.setPrefColumnCount(6);
+        btShowGrade.setOnAction(e -> usuarioValido(tfUsuario.getText(),tfPassword.getText())); //validar usuario
 
         // Create a scene and place it in the stage
-        Scene scene = new Scene(vBox, 420, 80);
+        Scene scene = new Scene(vBox, 420, 120);
+        vBox.setAlignment(Pos.CENTER);
         primaryStage.setTitle("Registro, inserte sus datos"); // Set the stage title
         primaryStage.setScene(scene); // Place the scene in the stage
         primaryStage.show(); // Display the stage
     }
 
+    /*
     private void showGrade() {
-        String ssn = tfSSN.getText();
-        String courseId = tfCourseId.getText();
+        String usuario = tfUsuario.getText();
+        String password = tfPassword.getText();
         try {
-            preparedStatement.setString(1, ssn);
-            preparedStatement.setString(2, courseId);
+            preparedStatement.setString(1, usuario);
+            preparedStatement.setString(2, password);
             ResultSet rset = preparedStatement.executeQuery();
 
             if (rset.next()) {
@@ -70,7 +76,7 @@ public class menuBD extends Application {
         catch (SQLException ex) {
             ex.printStackTrace();
         }
-    }
+    }*/
 
     /**
      * The main method is only needed for the IDE with limited
