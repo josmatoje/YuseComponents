@@ -133,10 +133,10 @@ public class DataAcces {
 
 
 
-    public static void cerrarConexion (Connection conexionSQL){
+    public static void cerrarConexion (){
         try {
-            if (conexionSQL!=null)
-                conexionSQL.close();
+            if (conexion!=null)
+                conexion.close();
         } catch (SQLException e) {
             e.printStackTrace(); //todo error al cerrar la conexion
         }

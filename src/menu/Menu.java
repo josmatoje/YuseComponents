@@ -25,10 +25,15 @@ public class Menu {
     private static final String INGRESAR_NICK= "Ingrese el nick de su usuario";
     private static final String NICK_NO_EXISTE= "El usuario no existe";
     private static final String DESEA_REGISTRARSE= "¿Desea registrar este usuario?";
+    private static final String ESCRIBIR_NOMBRE= "¿Desea introducir su nombre?";
+    private static final String ESCRIBIR_APELLIDO= "¿Desea introducir su apellido?";
     private static final String DESEA_SALIR= "¿Desea salir?";
     private static final String NICK_USO= "Este nick ya está en uso, introduzca otro";
-    private static final String INGRESAR_PASSWORD= "Ingrese una contraseña";
+    private static final String INGRESAR_PASSWORD= "Ingrese una contraseña de más de ocho caracteres";
     private static final String ERROR_PASSWORD= "La contraseña no coincide, pruebe de nuevo";
+    private static final String INGRESAR_NOMBRE= "Ingrese su nombre";
+    private static final String INGRESAR_APELLIDO= "Ingrese su o sus apellidos";
+    private static final String REPETIR_PASWORD= "Vuelva a introducir la contraseña";
 
     private static final String MENU_PRINCIPAL = "En construccion"; //todo crear menu
 
@@ -169,7 +174,7 @@ public class Menu {
      * <b>Postcondiciones</b>: --</br>
      * @return usuario, candena
      */
-    public static String leeUsuario(){
+    private static String leeUsuario(){
         System.out.println(INGRESAR_NICK);
         return teclado.nextLine();
     }
@@ -183,14 +188,22 @@ public class Menu {
      * <b>Postcondiciones</b>: --</br>
      * @return password, candena
      */
-    public static String leePassword(){
+    private static String leePassword(){
         System.out.println(INGRESAR_PASSWORD);
+        return teclado.nextLine();
+    }
+    private static String leeNombre(){
+        System.out.println(INGRESAR_NOMBRE);
+        return teclado.nextLine();
+    }
+    private static String leeApellido(){
+        System.out.println(INGRESAR_APELLIDO);
         return teclado.nextLine();
     }
 
     /**
      * <b>Cabecera</b>: public static Usuario registroUsuario (String nick, String password)</br>
-     * <b>Descripcion</b>: </br>
+     * <b>Descripcion</b>: Comprueba si un usuario es correcto</br>
      * <b>Entradas</b>: --</br>
      * <b>Salida</b>:Un array de cadenas con cuatro espacios que contiene datos de un nuevoi usuario</br>
      * <b>Precondiciones</b>: </br>
@@ -211,8 +224,8 @@ public class Menu {
             }
             registrado= new Usuario(nick,password);
         }else{
-            registrado= new Usuario(nick,"password");
             System.out.println(NICK_NO_EXISTE);
+            registrado= new Usuario(nick,"null");
         }
 
         return registrado;
@@ -220,6 +233,20 @@ public class Menu {
 
     public static void deseaRegistrarse(){
         System.out.println(DESEA_REGISTRARSE);
+    }
+
+    public static boolean registrar(String nick){
+        boolean correcto = false;
+        String password;
+
+        password = leePassword();
+        while(!correcto) {
+            System.out.println(REPETIR_PASWORD);
+            correcto = password.equals(leePassword());
+        }
+
+
+        return ingresarUsuario(new String[]{nick, password, "null", "null"});
     }
     /**
      * <b>Cabecera</b>: public static String[] datosNuevoUsuario ()</br>
@@ -233,20 +260,36 @@ public class Menu {
      */
     public static String[] datosNuevoUsuario () {
         String[] datosUsuario = new String[4];
-        boolean existe = false;
+        boolean existe = false, valido= false;
         
         do{
-            System.out.println(INGRESAR_NICK);
-            datosUsuario[0] = teclado.nextLine();
+            datosUsuario[0]= leeUsuario();
             if(existe = existeUsuario(datosUsuario[0])){
                 System.out.println(NICK_USO);
             }
         }while (existe);
 
+        do{
+            datosUsuario[1]= leePassword();
+            valido=validarPasword(datosUsuario[1]);
+        }while(valido);
+
+        System.out.println(ESCRIBIR_NOMBRE);
+        if(leerValidarRespuestaSiNo()){
+            datosUsuario[2]= leeNombre();
+        }
+
+        System.out.println(ESCRIBIR_APELLIDO);
+        if(leerValidarRespuestaSiNo()){
+            datosUsuario[3]= leeApellido();
+        }
+
         return datosUsuario;
     }
-    
-    private static String 
+
+    private static boolean validarPasword(String password) {
+        return password.length()>8;
+    }
 
     public static void menuPrincipal(){
         System.out.println(MENU_PRINCIPAL);
