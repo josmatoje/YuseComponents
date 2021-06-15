@@ -102,7 +102,7 @@ GO
 --Nombre: InsertarUsuario
 --Descripción: Inserta un nuevo usuario en la base de datos con su contraseña ofuscada
 --Entradas: nick de usuario y contraseña, nombre y apellido opcinal
---Salidas:
+--Salidas: --
 CREATE OR ALTER PROCEDURE InsertarUsuario 
 				@NickUsuario varchar(30),
 				@Contrasenha varchar(32),
@@ -116,6 +116,27 @@ AS BEGIN
 		VALUES (@NewId, @NickUsuario, HASHBYTES('SHA2_512',CONVERT(NVARCHAR(4000),@Contrasenha + @Salteo)), @Nombre, @Apellido)
 END
 GO
+
+--Nombre: ComprobarUsuario
+--Descripción: Comprueba si un usuario se encuentra registrado en la bbdd
+--Entradas: nick de usuario y contraseña
+--Salidas: bit 1 si existe y 0 si no exisite
+CREATE OR ALTER FUNCTION ComprobarUsuario (@NickUsuario varchar(30), @Contrasenha varchar(32)) RETURNS bit
+AS BEGIN
+	DECLARE @Registrado bit = 0
+	SET @Registrado = CASE 
+						WHEN (EXISTS (SELECT * FROM Usuarios 
+									WHERE NickUsuario=@NickUsuario AND 
+										Contrasenha =  HASHBYTES('SHA2_512',CONVERT(NVARCHAR(4000),@Contrasenha + CAST(ABS(CHECKSUM(IDUsuario)) % 100000 AS nvarchar(6))))))
+							THEN 1 
+							ELSE 0 
+						END
+	RETURN @Registrado
+END
+GO
+
+
+
 begin transaction
 EXECUTE InsertarUsuario josema, muestra
 EXECUTE InsertarUsuario cels, ñamblarg, Carlota, 'bota bota'
@@ -123,4 +144,7 @@ UPDATE Usuarios
 SET Saldo = 1000, Descuento=0.30
 WHERE NickUsuario='cels'
 SELECT * FROM Usuarios
-ROLLBACK
+
+SELECT dbo.ComprobarUsuario('cels', 'ñamblarg')
+SELECT dbo.ComprobarUsuario('cels', 'contraseña')
+
