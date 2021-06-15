@@ -7,9 +7,11 @@ import java.util.Properties;
 
 public class DataAcces {
 
-    private static Connection conexion = null;
-
+    private static Connection conexion = null; //Conexion de la bbdd
+    //Cadenas de sentencias
+    private static String EXISTE_USUARIO = "SELECT * FROM Usuarios WHERE Nick=?";
     private static String EXC_INSERTA_USUARIO = "EXECUTE InsertarUsuario ?,?,?,?";
+    private static String COMPRUEBA_USUARIO = "SELECT dbo.ComprobarUsuario(?,?)";
     /**
      * <b>Cabecera</b>: </br>
      * <b>Descripcion</b>: </br>
@@ -46,12 +48,61 @@ public class DataAcces {
     }
 
     //Busca si existe un usuario en la bbdd
-    public static boolean existeUsuario( String nick){
 
-        return
+    /**
+     * <b>Cabecera</b>: public static boolean existeUsuario(String nick)</br>
+     * <b>Descripcion</b>: </br>
+     * <b>Entradas</b>: </br>
+     * <b>Salida</b>: </br>
+     * <b>Precondiciones</b>: </br>
+     * <b>Postcondiciones</b>: </br>
+     * @param nick
+     * @return
+     */
+    public static boolean existeUsuario(String nick){
+        boolean existe = false;
+
+        try {
+            PreparedStatement exisateUsuario = conexion.prepareStatement(EXISTE_USUARIO);
+            exisateUsuario.setString(1, nick);
+            ResultSet usuario = exisateUsuario.executeQuery();
+            existe=usuario.first();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return existe;
     }
 
-    /**inserta un usuario (llama al metodo datosNuevoUsuario)
+    /**
+     * <b>Cabecera</b>: public static boolean usuarioValido (String nick, String password)</br>
+     * <b>Descripcion</b>: </br>
+     * <b>Entradas</b>: </br>
+     * <b>Salida</b>: </br>
+     * <b>Precondiciones</b>: </br>
+     * <b>Postcondiciones</b>: </br>
+     * @param nick
+     * @param password
+     * @return
+     */
+    public static boolean usuarioValido (String nick, String password){
+        boolean correcto = false;
+
+        try {
+            PreparedStatement comprobarUsuario = conexion.prepareStatement(COMPRUEBA_USUARIO);
+            comprobarUsuario.setString(1,nick);
+            comprobarUsuario.setString(2,password);
+            ResultSet valido = comprobarUsuario.executeQuery();
+            correcto=valido.getBoolean(1);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return correcto;
+    }
+
+    /**inserta un usuario (recibe al metodo datosNuevoUsuario)
      *
      * @return
      */

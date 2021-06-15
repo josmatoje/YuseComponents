@@ -11,8 +11,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import modelo.DataAcces;
+import modelo.Usuario;
 
 import java.sql.Connection;
+
+import static menu.Menu.*;
 
 
 public class Main extends Application {
@@ -21,10 +24,46 @@ public class Main extends Application {
      * JavaFX support. Not needed for running from the command line.
      */
     public static void main(String[] args) {
-        JavaFX.launch(args);
-        DataAcces.abrirConexion();
-        System.out.println("esto sigue haciendo cosas y vuelve a abrir el mismo cuadrdito");
-        JavaFX.launch(args);
+
+        boolean salir=false, logueado = false;
+        int eleccion;
+        Usuario actual;
+
+        mensajeBienvenida();
+
+        //bucle del programa principal
+        while(!salir){
+            //Bucle de inicio de sesion
+            while(!logueado) {
+                eleccion = menuInicio();
+                switch (eleccion) {
+                    case 1:
+                        actual=registroUsuario();
+                        if(actual==null){
+                            deseaRegistrarse();
+                            if(leerValidarRespuestaSiNo()){
+                               //todo pedir solo contraseña
+                            }
+                        }
+
+                        break;
+                    case 2:
+
+
+                        break;
+
+                    case 3:
+
+                        break;
+                }
+            }
+            //Bucle de interaccion en aplicacion
+            while(logueado){
+                menuPrincipal();
+            }
+        }
+
+        cerrarTeclado();
     }
 
     private TextField nickUsuario = new TextField();
